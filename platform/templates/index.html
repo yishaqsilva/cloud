@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cloud</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Helvetica Now Display';
+            src: url('https://example.com/fonts/HelveticaNowDisplay-ExtraBlack.woff2') format('woff2'); /* Replace with actual font URL */
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            font-family: 'Helvetica Now Display', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin: 10px 0;
+            letter-spacing: 0.1rem;
+            color: #666;
+            text-align: center;
+        }
+
+        #response {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: border 0.2s ease-in-out;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            color: #fff;
+            background-color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>cloud</h1>
+    <h3>Your pocket-friendly weather app</h3>
+    <div id="response"></div>
+    <form id="weatherForm" action="/weather" method="POST">
+        <input type="text" id="date" name="date" placeholder="Type here...">
+        <button type="submit">Go</button>
+    </form>
+
+    <script>
+        document.getElementById('weatherForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const responseDiv = document.getElementById('response');
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.text();
+                    responseDiv.textContent = `${data}°`;
+                } else {
+                    responseDiv.textContent = 'Error fetching data';
+                }
+            } catch (error) {
+                responseDiv.textContent = 'An error occurred';
+            }
+        });
+    </script>
+</body>
+</html>
